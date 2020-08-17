@@ -1,59 +1,13 @@
 import React from 'react';
 
 class CartItem extends React.Component{
-    constructor()
-    {
-        super();
-        this.state ={
-            price:999,
-            title:'Phone',
-            qty:1,
-            img:" "
-        }
-    }
-    increaseQuantity = () =>
-    {
-        console.log('this',this.state);
-        //setState form1
-        // this.setState({
-        //     qty:this.state.qty + 10
-        // });
-
-        //setState form2
-        this.setState((prevState) =>
-        {
-            return{
-                qty:prevState.qty + 1
-            }
-        });
-    }
-    decreaseQuantity = () =>
-    {
-        console.log('this',this.state);
-        const {qty} = this.state;
-        if(qty == 0)
-        {
-            return;
-        }
-        this.setState((prevState) =>
-        {
-            // if(prevState.qty==0)
-            // {
-            //     return;
-            // we can do this also but since here it is in setState so it will re-render 
-            //the app also which we don't want for 0 qty
-            // }
-
-            return{
-                qty:prevState.qty - 1
-            }
-        });
-    }
     render()
     {
-        const {price,title,qty,img} = this.state
+        const {price,title,qty,img} = this.props.item;
+        const {onIncreaseQuantity,onDecreaseQuantity,item,onDeleteProduct} = this.props
         return(
             <div className="cart-item">
+                {this.props.jsx}
                 <div className="left-block">
                     <img style ={styles.image} />
                 </div>
@@ -69,18 +23,20 @@ class CartItem extends React.Component{
                         alt="increase"
                         className="action-icons"
                         src="https://image.flaticon.com/icons/svg/992/992482.svg "
-                        onClick = {this.increaseQuantity}
+                        onClick = { () => onIncreaseQuantity(item)}
                         />
                         <img 
                         alt="decrease"
                         className="action-icons"
                         src=" https://image.flaticon.com/icons/svg/992/992514.svg"
-                        onClick = {this.decreaseQuantity}
+                        onClick = {() => onDecreaseQuantity(item)} //calling the function and not just passing ref
                         />
                         <img 
                         alt="delete"
                         className="action-icons"
-                        src=" https://image.flaticon.com/icons/svg/3221/3221897.svg"/>
+                        src=" https://image.flaticon.com/icons/svg/3221/3221897.svg"
+                        onClick = {() => onDeleteProduct(item.id)}
+                        />
                     </div>
                 </div>
             </div>
